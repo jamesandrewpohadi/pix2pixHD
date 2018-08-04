@@ -11,19 +11,19 @@ class AlignedDataset(BaseDataset):
         self.root = opt.dataroot    
 
         ### input A (label maps)
-        dir_A = '_A' if self.opt.label_nc == 0 else '_label'
-        self.dir_A = os.path.join(opt.dataroot, opt.phase + dir_A)
+        dir_A = '_A' if self.opt.label_nc == 0 else 'label'
+        self.dir_A = os.path.join(opt.dataroot, dir_A)
         self.A_paths = sorted(make_dataset(self.dir_A))
 
         ### input B (real images)
         if opt.isTrain:
-            dir_B = '_B' if self.opt.label_nc == 0 else '_img'
-            self.dir_B = os.path.join(opt.dataroot, opt.phase + dir_B)  
+            dir_B = '_B' if self.opt.label_nc == 0 else 'img'
+            self.dir_B = os.path.join(opt.dataroot, dir_B)  
             self.B_paths = sorted(make_dataset(self.dir_B))
 
         ### instance maps
         if not opt.no_instance:
-            self.dir_inst = os.path.join(opt.dataroot, opt.phase + '_inst')
+            self.dir_inst = os.path.join(opt.dataroot, 'inst')
             self.inst_paths = sorted(make_dataset(self.dir_inst))
 
         ### load precomputed instance-wise encoded features
@@ -76,3 +76,48 @@ class AlignedDataset(BaseDataset):
 
     def name(self):
         return 'AlignedDataset'
+
+class AlignedDatasetMirror(AlignedDataset):
+    def initialize(self, opt):
+        self.opt = opt
+        self.root = opt.collected_path
+
+        ### input A (label maps)
+        self.dir_A = os.path.join(, 'label')
+        self.A_paths = sorted(make_dataset(self.dir_A))
+
+        ### input B (real images)
+        if opt.isTrain:
+            self.dir_B = os.path.join(self.root, 'img')  
+            self.B_paths = sorted(make_dataset(self.dir_B))
+
+        ### instance maps
+        if not opt.no_instance:
+            self.dir_inst = os.path.join(self.root, 'inst')
+            self.inst_paths = sorted(make_dataset(self.dir_inst))
+
+        ### load precomputed instance-wise encoded features
+        if opt.load_features:                              
+            self.dir_feat = os.path.join(opt.self.root, 'feat')
+            print('----------- loading features from %s ----------' % self.dir_feat)
+            self.feat_paths = sorted(make_dataset(self.dir_feat))
+
+        self.dataset_size = len(self.A_paths)
+        
+    def name(self):
+        return 'AlignDatasetMirror'
+
+class OneDataset(AlignedDataset):
+    def __init__(self, image_label_path, image_inst_path):
+        self.image_label_path = image_label_path
+        self.image_inst_path = image_inst_path
+    
+    def initialize(self, opt):
+        self.opt = opt
+        self.A_paths = [self.image_label_path]
+        self.inst_paths = [self.image_inst_path]
+
+        self.dataset_size = 1
+
+    def name(self):
+        return 'OneDataset'

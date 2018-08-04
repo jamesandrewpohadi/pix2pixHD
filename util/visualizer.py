@@ -131,3 +131,11 @@ class Visualizer():
             txts.append(label)
             links.append(image_name)
         webpage.add_images(ims, txts, links, width=self.win_size)
+
+    def save_image(self, visuals, n):
+        name = "inference_%.5d" % (n)
+
+        for label, image_numpy in visuals.items():
+            image_name = '%s_%s.jpg' % (name, label)
+            save_path = os.path.join('samples', image_name)
+            util.save_image(image_numpy, save_path)
