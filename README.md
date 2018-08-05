@@ -2,11 +2,13 @@
 
 <br><br><br><br>
 
-#RapidML: Pix2pixHD
+# RapidML: Pix2pixHD
+
 RapidML is a machine learning toolkits for designers to quikly implemented ML model in their product design.
 RapidML is developed by SUTD Students from theme 1 during ALP 2018 in ZJU.
 
-#pix2pixHD
+# pix2pixHD
+
 This code is developed based from [pix2pixHD](https://github.com/NVIDIA/pix2pixHD) by Nvidia
 
 # How to use
@@ -21,11 +23,11 @@ model = model()
 ```
 
 - Step 3 (optional): Retrain model
-To retrain model, users need to put images, labels and instances to be retrained in ./recorder folder, under the img, label, inst folder respectively.
-Naming rules:
-- Each image must in the format of 'name_img.png' or 'name_img.jpg'.
-- Each label must in the format of 'name_label.png' or 'name_label.jpg'.
-- Each instance must in the format of 'name_inst.png' or 'name_inst.jpg'.
+	To retrain model, users need to put images, labels and instances to be retrained in ./recorder folder, under the img, label, inst folder respectively.
+	Naming rules:
+	- Each image must in the format of 'name_img.png' or 'name_img.jpg'.
+	- Each label must in the format of 'name_label.png' or 'name_label.jpg'.
+	- Each instance must in the format of 'name_inst.png' or 'name_inst.jpg'.
 
 Then run the following command.
 ```bash
@@ -173,5 +175,6 @@ If you find this useful for your research, please use the following.
 ```
 
 ## Acknowledgments
-This code is forked from [pix2pixHD](https://github.com/NVIDIA/pix2pixHD) by Nvidia
+This code is forked from [pix2pixHD](https://github.com/NVIDIA/pix2pixHD) by Nvidia.
+
 This code borrows heavily from [pytorch-CycleGAN-and-pix2pix](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).
