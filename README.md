@@ -2,7 +2,44 @@
 
 <br><br><br><br>
 
-# pix2pixHD
+#RapidML: Pix2pixHD
+RapidML is a machine learning toolkits for designers to quikly implemented ML model in their product design.
+RapidML is developed by SUTD Students from theme 1 during ALP 2018 in ZJU.
+
+#pix2pixHD
+This code is developed based from [pix2pixHD](https://github.com/NVIDIA/pix2pixHD) by Nvidia
+
+# How to use
+
+- Step 1: Import module
+```bash
+from pix2pixHD import model
+```
+- Step 2: Assign model
+```bash
+model = model()
+```
+
+
+- Step 3 (optional): Retrain model
+To retrain model, users need to put images, labels and instances to be retrained in ./recorder folder, under the img, label, inst folder respectively.
+Naming rules:
+- Each image must in the format of 'name_img.png' or 'name_img.jpg'.
+- Each label must in the format of 'name_label.png' or 'name_label.jpg'.
+- Each instance must in the format of 'name_inst.png' or 'name_inst.jpg'.
+
+Then run the following command.
+```bash
+model.train()
+```
+
+- Step 4: To infer/predict
+```bash
+model.infer('path/to/label','path/to/instance')
+```
+
+
+
 ### [[Project]](https://tcwang0509.github.io/pix2pixHD/) [[Youtube]](https://youtu.be/3AIpPlzM_qs) [[Paper]](https://arxiv.org/pdf/1711.11585.pdf) <br>
 Pytorch implementation of our method for high-resolution (e.g. 2048x1024) photorealistic image-to-image translation. It can be used for turning semantic label maps into photo-realistic images or synthesizing portraits from face label maps. <br><br>
 [High-Resolution Image Synthesis and Semantic Manipulation with Conditional GANs](https://tcwang0509.github.io/pix2pixHD/)  
@@ -53,6 +90,7 @@ Pytorch implementation of our method for high-resolution (e.g. 2048x1024) photor
 - Linux or macOS
 - Python 2 or 3
 - NVIDIA GPU (12G or 24G memory) + CUDA cuDNN
+- pandas
 
 ## Getting Started
 ### Installation
@@ -132,4 +170,5 @@ If you find this useful for your research, please use the following.
 ```
 
 ## Acknowledgments
+This code is forked from [pix2pixHD](https://github.com/NVIDIA/pix2pixHD) by Nvidia
 This code borrows heavily from [pytorch-CycleGAN-and-pix2pix](https://github.com/junyanz/pytorch-CycleGAN-and-pix2pix).

@@ -83,7 +83,7 @@ class AlignedDatasetMirror(AlignedDataset):
         self.root = opt.collected_path
 
         ### input A (label maps)
-        self.dir_A = os.path.join(, 'label')
+        self.dir_A = os.path.join(self.root,'label')
         self.A_paths = sorted(make_dataset(self.dir_A))
 
         ### input B (real images)

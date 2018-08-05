@@ -73,10 +73,10 @@ class model(Config):
         if not os.path.exists(self.collected_path):
             print('Creating collected path at {}'.format(self.collected_path))
             os.mkdir(self.collected_path)
-            os.mkdir(os.path.join(self.collected_path,'png'))
-            os.mkdir(os.path.join(self.collected_path,'png','label'))
-            os.mkdir(os.path.join(self.collected_path,'png','inst'))
-            os.mkdir(os.path.join(self.collected_path,'png','img'))
+            #os.mkdir(os.path.join(self.collected_path,'png'))
+            os.mkdir(os.path.join(self.collected_path,'label'))
+            os.mkdir(os.path.join(self.collected_path,'inst'))
+            os.mkdir(os.path.join(self.collected_path,'img'))
             df=pd.DataFrame(columns=["Text"])
             df.to_csv (os.path.join(self.collected_path,'Index.csv'), encoding = "utf-8") 
         
@@ -89,27 +89,30 @@ class model(Config):
      
         label_files = os.listdir(os.path.join(recorder_path,'label'))
         inst_files = os.listdir(os.path.join(recorder_path,'inst'))
+        img_files = os.listdir(os.path.join(recorder_path,'img'))
             
         for fi in label_files:       
-            if fi.endswith("_labelIds.png") and fi[:-13]+'_instanceIds.png' in inst_files:
+            if fi.endswith("_label.png") and fi[:-10]+'_inst.png' in inst_files and fi[:-10]+'_img.png' in img_files:
                 
-                row = []
+                #row = []
                 name = ('MY_%.5d' % row_num)
                 meaning = fi[:-13]
-                row.append(name)
-                row.append(meaning)
+                #row.append(name)
+                #row.append(meaning)
+                row = ['{} -> {}'.format(name, meaning)]
                 print('{} -> {}'.format(meaning, name)) 
                 writeCSV.writerow(row)
-                os.rename(os.path.join(recorder_path, 'label', fi),os.path.join(self.collected_path, 'png', 'label', name+"_labelIds.png"))
-                os.rename(os.path.join(recorder_path, 'inst', fi[:-13]+"_instanceIds.png"),os.path.join(self.collected_path, 'png', 'inst', name+"_instanceIds.png"))
-               
+                os.rename(os.path.join(recorder_path, 'label', fi),os.path.join(self.collected_path, 'label', name+"_label.png"))
+                os.rename(os.path.join(recorder_path, 'inst', fi[:-10]+"_inst.png"),os.path.join(self.collected_path, 'inst', name+"_inst.png"))
+                os.rename(os.path.join(recorder_path, 'img', fi[:-10]+"_img.png"),os.path.join(self.collected_path, 'img', name+"_img.png"))
                 row_num+=1
         print('done!')
         
     def reframe(self, test_path=None):
         #reframe dataset to reframed_dataset
         #reframed_dataset consist of former_dataset with collected_dataset
-        cp_path = os.path.join(self.reframed_dataset,'png')
+        #cp_path = os.path.join(self.reframed_dataset,'png')
+        cp_path = self.reframed_dataset
         if test_path == None:
             test_path = self.test_path
         if not os.path.exists(self.reframed_dataset):
@@ -121,13 +124,18 @@ class model(Config):
         if not os.path.exists(os.path.join(cp_path, 'inst')):
             print('creating {} ...'.format(cp_path, 'inst'))
             os.mkdir(os.path.join(cp_path, 'inst'))
-            for image in os.listdir("former_dataset/test_inst"):
-                copyfile(os.path.join("former_dataset/test_inst",image),os.path.join(self.reframed_dataset,'png/inst', os.path.basename(image)))
+            for image in os.listdir("former_dataset/train_inst"):
+                copyfile(os.path.join("former_dataset/train_inst",image),os.path.join(self.reframed_dataset,'inst', os.path.basename(image)))
         if not os.path.exists(os.path.join(cp_path, 'label')):
             print('creating {} ...'.format(cp_path, 'label'))
             os.mkdir(os.path.join(cp_path, 'label'))
-            for image in os.listdir("former_dataset/test_label"):
-                copyfile(os.path.join("former_dataset/test_label",image),os.path.join(self.reframed_dataset,'png/label', os.path.basename(image)))
+            for image in os.listdir("former_dataset/train_label"):
+                copyfile(os.path.join("former_dataset/train_label",image),os.path.join(self.reframed_dataset,'label', os.path.basename(image)))
+        if not os.path.exists(os.path.join(cp_path, 'img')):
+            print('creating {} ...'.format(cp_path, 'img'))
+            os.mkdir(os.path.join(cp_path, 'img'))
+            for image in os.listdir("former_dataset/train_img"):
+                copyfile(os.path.join("former_dataset/train_img",image),os.path.join(self.reframed_dataset,'img', os.path.basename(image)))
         if 'reframe.csv' not in os.listdir(self.reframed_dataset):
             print('creating reframe.csv')
             df=pd.DataFrame()
@@ -147,7 +155,7 @@ class model(Config):
             a.readline()
             content = a.readlines()
             for line in content:
-                tmp = line.split(',')
+                tmp = line.split(' -> ')
                 inst_name = tmp[0] + '_inst.png'
                 label_name = tmp[0] + '_label.png'
                 img_name = tmp[0] + '_img.png'
@@ -156,12 +164,12 @@ class model(Config):
                 if not (os.path.exists(os.path.join(cp_path, 'label', label_name)) and os.path.exists(os.path.join(cp_path, 'inst', inst_name))):
                     print('reframing {} ...'.format(tmp[0]))
                     row = []
-                    row.append(tmp[0]+'|'+meaning)
+                    row.append('{} -> {}'.format(tmp[0],meaning))
 
                     writeCSV.writerow(row)
-                    copyfile(os.path.join(self.collected_path, 'png', 'label', label_name), os.path.join(cp_path, 'label', label_name))
-                    copyfile(os.path.join(self.collected_path, 'png', 'inst', inst_name), os.path.join(cp_path, 'inst', inst_name))
-                    copyfile(os.path.join(self.collected_path, 'png', 'img', inst_name), os.path.join(cp_path, 'img', inst_name))
+                    copyfile(os.path.join(self.collected_path, 'label', label_name), os.path.join(cp_path, 'label', label_name))
+                    copyfile(os.path.join(self.collected_path, 'inst', inst_name), os.path.join(cp_path, 'inst', inst_name))
+                    copyfile(os.path.join(self.collected_path, 'img', img_name), os.path.join(cp_path, 'img', img_name))
 
         print('done!')
          
