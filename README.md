@@ -20,7 +20,6 @@ from pix2pixHD import model
 model = model()
 ```
 
-
 - Step 3 (optional): Retrain model
 To retrain model, users need to put images, labels and instances to be retrained in ./recorder folder, under the img, label, inst folder respectively.
 Naming rules:
@@ -32,12 +31,15 @@ Then run the following command.
 ```bash
 model.train()
 ```
+This will train image from the ./reframed_dataset which consist of the ./former_dataset and the new collected data
 
 - Step 4: To infer/predict
 ```bash
-model.infer('path/to/label','path/to/instance')
+images = model.infer('path/to/label','path/to/instance')
 ```
-
+model.infer('path/to/label','path/to/instance') will return a tuple (input_label, synthesized_image)
+To view the label image, you can do images[0].show()
+To view the synthesized image, you can do images[1].show()
 
 
 ### [[Project]](https://tcwang0509.github.io/pix2pixHD/) [[Youtube]](https://youtu.be/3AIpPlzM_qs) [[Paper]](https://arxiv.org/pdf/1711.11585.pdf) <br>
@@ -91,6 +93,7 @@ Pytorch implementation of our method for high-resolution (e.g. 2048x1024) photor
 - Python 2 or 3
 - NVIDIA GPU (12G or 24G memory) + CUDA cuDNN
 - pandas
+- tensorflow 1.8.0
 
 ## Getting Started
 ### Installation

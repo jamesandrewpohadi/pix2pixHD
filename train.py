@@ -13,6 +13,7 @@ import torch
 from torch.autograd import Variable
 
 opt = TrainOptions().parse()
+opt.name = 'label2city_512p'
 iter_path = os.path.join(opt.checkpoints_dir, opt.name, 'iter.txt')
 if opt.continue_train:
     try:

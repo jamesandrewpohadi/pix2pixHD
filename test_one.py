@@ -19,6 +19,7 @@ def infer(n, image_label_path, image_inst_path):
     opt.no_flip = True  # no flip
     opt.name = "label2city_1024p"
     opt.netG = "local"
+    opt.ngf = 32
     opt.resize_or_crop = "none"
 
     data_loader = CreateOneDataLoader(opt)
@@ -69,5 +70,4 @@ def infer(n, image_label_path, image_inst_path):
         img_path = data['path']
         print('process image... %s' % img_path)
         visualizer.save_image(visuals, n)
-
 #webpage.save()
