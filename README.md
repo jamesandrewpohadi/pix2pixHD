@@ -14,13 +14,13 @@ This code is developed based from [pix2pixHD](https://github.com/NVIDIA/pix2pixH
 # How to use
 
 - Step 1: Import module
-```bash
-from pix2pixHD import model
-```
+	```bash
+	from pix2pixHD import model
+	```
 - Step 2: Assign model
-```bash
-model = model()
-```
+	```bash
+	model = model()
+	```
 
 - Step 3 (optional): Retrain model
 	To retrain model, users need to put images, labels and instances to be retrained in ./recorder folder, under the img, label, inst folder respectively.
@@ -29,16 +29,16 @@ model = model()
 	- Each label must in the format of 'name_label.png' or 'name_label.jpg'.
 	- Each instance must in the format of 'name_inst.png' or 'name_inst.jpg'.
 
-Then run the following command.
-```bash
-model.train()
-```
-This will train image from the ./reframed_dataset which consist of the ./former_dataset and the new collected data
+	Then run the following command.
+	```bash
+	model.train()
+	```
+	This will train image from the ./reframed_dataset which consist of the ./former_dataset and the new collected data
 
 - Step 4: To infer/predict
-```bash
-images = model.infer('path/to/label','path/to/instance')
-```
+	```bash
+	images = model.infer('path/to/label','path/to/instance')
+	```
 model.infer('path/to/label','path/to/instance') will return a tuple (input_label, synthesized_image)
 To view the label image, you can do images[0].show()
 To view the synthesized image, you can do images[1].show()
