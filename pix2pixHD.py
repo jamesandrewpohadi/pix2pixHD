@@ -175,7 +175,7 @@ class model(Config):
          
     def train(self, name="label2city_512p"):
         #train dataset
-        if not os.path.exist(self.reframed_dataset):
+        if not os.path.exists(self.reframed_dataset):
             print('./reframed_dataset does not exist, try to use model.reframe()')
             return
         train(name)
