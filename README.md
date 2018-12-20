@@ -7,6 +7,10 @@
 RapidML is a machine learning toolkits for designers to quikly implemented ML model in their product design.
 RapidML is developed by SUTD Students from theme 1 during ALP 2018 in ZJU.
 
+<p align='center'>
+  <img src='Theme-1_Poster.jpg'/>
+</p>
+
 # pix2pixHD
 
 This code is developed based from [pix2pixHD](https://github.com/NVIDIA/pix2pixHD) by Nvidia
